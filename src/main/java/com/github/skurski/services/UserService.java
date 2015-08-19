@@ -14,5 +14,9 @@ public interface UserService {
 	public int updateRow(User user);
 
 	public int deleteRow(int id);
+	
+	public boolean checkIfUserExistsByEmail(String email);
+	
+	public User getUserByEmail(String email);
 
 }

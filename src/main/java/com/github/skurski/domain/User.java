@@ -4,6 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
@@ -14,13 +20,22 @@ public class User {
 	@GeneratedValue
 	private int id;
 	
+	@NotEmpty
 	@Column(name="first_name")
 	private String firstName;
 	
+	@NotEmpty
 	@Column(name="last_name")
 	private String lastName;
-	
+
+	@NotEmpty
+	@Email
 	private String email;
+	
+	@NotEmpty
+	@Size(min=4, max=20)
+	private String password;
+	
 	private String phone;
 
 	public int getId() {
@@ -61,6 +76,14 @@ public class User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String pass) {
+		password = pass;
 	}
 
 }

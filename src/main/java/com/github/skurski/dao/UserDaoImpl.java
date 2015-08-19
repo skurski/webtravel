@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.skurski.domain.User;
@@ -68,6 +70,27 @@ public class UserDaoImpl implements UserDao {
 		session.close();
 		return (Integer) ids;
 	}
+	
+	@Override
+	public boolean checkIfUserExistsByEmail(String email) {
+//		Session session = sessionFactory.openSession();
+
+        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
+        criteria.add(Restrictions.like("email", email));
+        User user =  (User) criteria.uniqueResult();
+		
+		if(user != null) return true;
+		else return false;
+	}
+	
+	
+	@Override
+	public User getUserByEmail(String email) {
+        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
+        criteria.add(Restrictions.like("email", email));
+        return (User) criteria.uniqueResult();
+	}
+
 	
 	/*
 	Session sess = factory.openSession();

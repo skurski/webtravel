@@ -48,13 +48,16 @@
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
-			<value>/WEB-INF/pages/</value>
+			<value>/WEB-INF/view/</value>
 		</property>
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
 	</bean>
 
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
 
 	<bean id="userDaoImpl" class="com.github.skurski.dao.UserDaoImpl" />
 	<bean id="userServiceImpl" class="com.github.skurski.services.UserServiceImpl" />

@@ -6,6 +6,7 @@
       `first_name` varchar(45) DEFAULT NULL,  
       `last_name` varchar(45) DEFAULT NULL,  
       `email` varchar(45) DEFAULT NULL,  
+      `password` varchar(40) DEFAULT NULL,
       `phone` varchar(45) DEFAULT NULL,  
       PRIMARY KEY (`id`)  
     ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;  

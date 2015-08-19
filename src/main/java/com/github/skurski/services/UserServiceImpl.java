@@ -36,5 +36,15 @@ public class UserServiceImpl implements UserService {
 	public int deleteRow(int id) {
 		return userDao.deleteRow(id);
 	}
+	
+	@Override
+	public boolean checkIfUserExistsByEmail(String email) {
+		return userDao.checkIfUserExistsByEmail(email);
+	}
+	
+	@Override
+	public User getUserByEmail(String email) {
+		return userDao.getUserByEmail(email);
+	}
 
 }
