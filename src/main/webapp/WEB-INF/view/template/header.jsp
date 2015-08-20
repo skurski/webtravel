@@ -17,7 +17,7 @@
 						<li><a href="login">Login</a></li>					
 					<% } else { %>
 						<li><a href="info">Info</a></li>
-						<li><a href="users-list">List of users</a></li>
+						<li><a href="tour-list">List of tours</a></li>
 						<li><a href="logout">Logout</a></li>
 					<% } %>
 				</ul>

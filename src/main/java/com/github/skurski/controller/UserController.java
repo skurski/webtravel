@@ -17,6 +17,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.skurski.domain.User;
+import com.github.skurski.domain.UserLogin;
 import com.github.skurski.services.UserService;
 
 @Controller
@@ -51,17 +52,21 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public ModelAndView getLogin(@ModelAttribute User user) {
-		return new ModelAndView("login");
+	public ModelAndView getLogin(@ModelAttribute UserLogin userLogin) {
+		ModelAndView mav = new ModelAndView("login");
+		mav.addObject("userLogin", new UserLogin());
+		return mav;
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public ModelAndView authUser(@ModelAttribute User user) {
-		User validUser = userService.getUserByEmail(user.getEmail());
+	public ModelAndView authUser(@Valid @ModelAttribute UserLogin userLogin, BindingResult result) {
+		if(result.hasErrors()) return new ModelAndView("login");
+		
+		User validUser = userService.getUserByEmail(userLogin.getEmail());
 		if(validUser != null) {
-			if(user.getPassword().equals(validUser.getPassword())) {
-				ModelAndView mav = new ModelAndView("redirect:info");
-				mav.addObject("userId", user);
+			if(userLogin.getPassword().equals(validUser.getPassword())) {
+				ModelAndView mav = new ModelAndView("redirect:tour-list");
+				mav.addObject("userId", validUser);
 				return mav;			
 			} else {
 				ModelAndView mav = new ModelAndView("login");
@@ -85,6 +90,12 @@ public class UserController {
 	public ModelAndView getList() {
 		List userList = userService.getList();
 		return new ModelAndView("list","userList",userList);
+	}
+	
+	@RequestMapping("/tour-list")
+	public ModelAndView getTour() {
+		List userList = userService.getList();
+		return new ModelAndView("tour","userList",userList);
 	}
 	
 	@RequestMapping("/delete")
