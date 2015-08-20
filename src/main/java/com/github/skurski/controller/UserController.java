@@ -1,6 +1,7 @@
 package com.github.skurski.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.skurski.domain.Travel;
 import com.github.skurski.domain.User;
 import com.github.skurski.domain.UserLogin;
 import com.github.skurski.services.UserService;
@@ -67,6 +69,9 @@ public class UserController {
 			if(userLogin.getPassword().equals(validUser.getPassword())) {
 				ModelAndView mav = new ModelAndView("redirect:tour-list");
 				mav.addObject("userId", validUser);
+				Set<Travel> travelObj = validUser.getTravel();
+				System.out.println(travelObj);
+				mav.addObject("travelObj", travelObj);
 				return mav;			
 			} else {
 				ModelAndView mav = new ModelAndView("login");

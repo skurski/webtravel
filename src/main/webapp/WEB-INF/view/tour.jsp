@@ -5,7 +5,7 @@
 
 <div class="container col-md-12">
 	<div class="table-responsive">
-		<c:if test="${!empty userList}">
+		<c:if test="${!empty travelObj}">
 			<table class="table table-striped">
 				<tr>
 					<td>First Name</td>
@@ -16,20 +16,18 @@
 					<td>Edit</td>
 					<td>Delete</td>
 				</tr>
-				<c:forEach items="${userList}" var="user">
+				<c:forEach items="${travelObj}" var="travel">
 					<tr>
-						<td><c:out value="${user.firstName}" />
+						<td><c:out value="${travel.name}" />
 						</td>
-						<td><c:out value="${user.lastName}" />
+						<td><c:out value="${travel.location}" />
 						</td>
-						<td><c:out value="${user.email}" />
+						<td><c:out value="${travel.coordinate}" />
 						</td>
-						<td><c:out value="${user.password}" />
+						<td><c:out value="${travel.desc}" />
 						</td>
-						<td><c:out value="${user.phone}" />
-						</td>
-						<td><a href="edit?id=${user.id}">Edit</a></td>
-						<td><a href="delete?id=${user.id}">Delete</a></td>
+						<td><a href="edit?id=${travel.id}">Edit</a></td>
+						<td><a href="delete?id=${travel.id}">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</table>

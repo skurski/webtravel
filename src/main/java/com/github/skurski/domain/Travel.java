@@ -1,4 +1,5 @@
 package com.github.skurski.domain;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,9 +28,27 @@ public class Travel {
 	private String desc;
 	private String coordinate;
 	
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name="user_id")
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
+    
+    public Travel() {}
+    
+    public Travel(String name, String location, String desc, String coordinate, User user) {
+        this.name=name;
+        this.location=location;
+        this.desc=desc;
+        this.coordinate=coordinate;
+        this.user = user;
+    }
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public User getUser() {
+		return user;
+	}
 
 	public int getId() {
 		return id;
@@ -69,11 +88,4 @@ public class Travel {
 		this.coordinate = coordinate;
 	}
 
-    public User getUser() {
-    	return user;
-    }
-    
-    public void setUser(User user) {
-    	this.user = user;
-    }
 }

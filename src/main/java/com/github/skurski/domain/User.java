@@ -1,8 +1,11 @@
 package com.github.skurski.domain;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -37,6 +40,17 @@ public class User {
 	private String password;
 	
 	private String phone;
+	
+    @OneToMany(mappedBy="user") // mappedby object name in travel 
+    private Set<Travel> travel;
+    
+    public Set<Travel> getTravel() {
+    	return travel;
+    }
+    
+    public void setTravel(Set<Travel> travel) {
+    	this.travel = travel;
+    }
 
 	public int getId() {
 		return id;
