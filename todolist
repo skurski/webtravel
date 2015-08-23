@@ -1,0 +1,10 @@
+TODO:
+
+* upload gallery on add new travel form
+* upload gallery on edit travel page
+* delete travel on tour-list
+* show images on edit travel page
+* edit user account (md5 hash password)
+* ? validation travel form
+* CODE REFACTORING - USE DESIGN PATTERNS AND COMMON INTERFACES (ABSTRACT CLASSES)
+

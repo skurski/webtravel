@@ -1,19 +1,14 @@
 package com.github.skurski.domain;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="travel")
@@ -25,21 +20,30 @@ public class Travel {
 
 	private String name;
 	private String location;
-	private String desc;
-	private String coordinate;
+	private String description;
+	private String latitude;
+	private String longitude;
 	
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
     
+    @OneToMany(mappedBy="travel")
+    private Set<Gallery> gallery;
+    
+    @Transient
+    private String thumbnail = "resources/upload/thumbnail.png";
+    
     public Travel() {}
     
-    public Travel(String name, String location, String desc, String coordinate, User user) {
-        this.name=name;
-        this.location=location;
-        this.desc=desc;
-        this.coordinate=coordinate;
+    public Travel(String name, String location, String description, String latitude, String longitude, User user, Set<Gallery> gallery) {
+        this.name = name;
+        this.location = location;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.user = user;
+        this.gallery = gallery;
     }
 
 	public void setUser(User user) {
@@ -73,19 +77,44 @@ public class Travel {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
-	public String getCoordinate() {
-		return coordinate;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public void setCoordinate(String coordinate) {
-		this.coordinate = coordinate;
+	public String getLongitude() {
+		return longitude;
+	}
+	
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
+	public String getLatitude() {
+		return latitude;
+	}
+	
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	
+    public Set<Gallery> getGallery() {
+    	return gallery;
+    }
+    
+    public void setGallery(Set<Gallery> gallery) {
+    	this.gallery = gallery;
+    }
+    
+	public void setThumbnail(String thumb) {
+		thumbnail = thumb;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
 	}
 
 }

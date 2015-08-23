@@ -28,6 +28,7 @@
             <list>  
                 <value>com.github.skurski.domain.User</value>  
                 <value>com.github.skurski.domain.Travel</value>  
+                <value>com.github.skurski.domain.Gallery</value>  
             </list>  
         </property> 
 		<property name="hibernateProperties">
@@ -62,5 +63,14 @@
 
 	<bean id="userDaoImpl" class="com.github.skurski.dao.UserDaoImpl" />
 	<bean id="userServiceImpl" class="com.github.skurski.services.UserServiceImpl" />
+	
+	<bean id="travelDao" class="com.github.skurski.dao.TravelDao" />
+	<bean id="travelService" class="com.github.skurski.services.TravelService" />
+	
+	<bean id="multipartResolver" 
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <!-- one of the properties available; the maximum file size in bytes -->  
+        <property name="maxUploadSize" value="10000000" />  
+	 </bean>
 
 </beans>

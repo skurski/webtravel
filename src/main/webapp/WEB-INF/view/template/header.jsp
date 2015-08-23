@@ -12,11 +12,11 @@
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/webtravel">Home</a></li>
-					<% if(session.getAttribute("userId") == null) { %>
+					<% if(session.getAttribute("user") == null) { %>
 						<li><a href="signup">Signup</a></li>
 						<li><a href="login">Login</a></li>					
 					<% } else { %>
-						<li><a href="info">Info</a></li>
+						<li><a href="edit-account">Account</a></li>
 						<li><a href="tour-list">List of tours</a></li>
 						<li><a href="logout">Logout</a></li>
 					<% } %>

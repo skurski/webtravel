@@ -17,8 +17,9 @@
 	    `user_id` int(11) DEFAULT NULL,
 	    `name` varchar(512) DEFAULT NULL,
 	    `location` varchar(512) DEFAULT NULL,
-	    `desc` text DEFAULT NULL,
-	    `coordinate` text DEFAULT NULL,
+	    `description` text DEFAULT NULL,
+	    `latitude` varchar(40) DEFAULT NULL,
+	    `longitude` varchar(40) DEFAULT NULL,
 	    PRIMARY KEY (`id`),
 	    KEY `user_id` (`user_id`),
 	    CONSTRAINT `travel_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE   
@@ -39,6 +40,9 @@
 	
     INSERT INTO `travel` (`id`, `user_id`, `name`, `location`) VALUES (1, 1, 'Wakacje 2015', 'Albania - Tirana');
     INSERT INTO `travel` (`id`, `user_id`, `name`, `location`) VALUES (2, 1, 'Wakacje 2014', 'Bułgaria - Złote piaski');
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (1, 1, '/resources/upload/thumbnail.png', 'Travel Image');
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (2, 2, '/resources/upload/thumbnail.png', 'Travel Image');
+    
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (1, 1, 'resources/upload/thumbnail.png', 'Travel Image');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (2, 1, 'resources/upload/thumbnail.png', 'Travel Image');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (3, 2, 'resources/upload/thumbnail.png', 'Travel Image');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (4, 2, 'resources/upload/thumbnail.png', 'Travel Image');
 

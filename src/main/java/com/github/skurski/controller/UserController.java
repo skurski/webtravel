@@ -17,22 +17,22 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.skurski.domain.Gallery;
 import com.github.skurski.domain.Travel;
 import com.github.skurski.domain.User;
 import com.github.skurski.domain.UserLogin;
+import com.github.skurski.services.TravelService;
 import com.github.skurski.services.UserService;
 
 @Controller
-@SessionAttributes({"travelObj", "userId"})
+@SessionAttributes({"travelId", "user"})
 public class UserController {
 	
 	@Autowired
 	UserService userService;
-
-	@RequestMapping("/")
-	public ModelAndView getForm() {
-		return new ModelAndView("index");
-	}
+	
+	@Autowired
+	TravelService travelService;
 	
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public ModelAndView getForm(@ModelAttribute User user) {
@@ -68,11 +68,8 @@ public class UserController {
 		if(validUser != null) {
 			if(userLogin.getPassword().equals(validUser.getPassword())) {
 				ModelAndView mav = new ModelAndView("redirect:tour-list");
-				mav.addObject("userId", validUser);
-				Set<Travel> travelObj = validUser.getTravel();
-				System.out.println(travelObj);
-				mav.addObject("travelObj", travelObj);
-				return mav;			
+				mav.addObject("user", validUser);
+				return mav;
 			} else {
 				ModelAndView mav = new ModelAndView("login");
 				mav.addObject("passwordNotMatchMsg", new String("Password don't match to email address. Try again"));
@@ -97,22 +94,57 @@ public class UserController {
 		return new ModelAndView("list","userList",userList);
 	}
 	
-	@RequestMapping("/tour-list")
-	public ModelAndView getTour() {
-		List userList = userService.getList();
-		return new ModelAndView("tour","userList",userList);
+	@RequestMapping(value="/tour-list", method=RequestMethod.GET)
+	public ModelAndView getTour(@ModelAttribute Travel travel, HttpSession session) {
+		ModelAndView mav = new ModelAndView("tour");
+        User userFromSession = (User) session.getAttribute("user");
+		User user = userService.getRowById(userFromSession.getId());
+		mav.addObject("user", user);
+		Set<Travel> travelSet = user.getTravel();
+		if(travelSet.isEmpty()) {
+			mav.addObject("noTravel", new String("You have no travel"));
+		} else {
+			for(Travel trav: travelSet) {
+				Set<Gallery> gallerySet = trav.getGallery();
+				if(gallerySet.iterator().hasNext()) {
+					trav.setThumbnail(gallerySet.iterator().next().getPath());
+				}
+			}
+			mav.addObject("travelSet", travelSet);
+		}
+		return mav;		
 	}
 	
-	@RequestMapping("/delete")
-	public ModelAndView deleteUser(@RequestParam int id) {
-		userService.deleteRow(id);
-		return new ModelAndView("redirect:users-list");
+	@RequestMapping("/delete-tour")
+	public ModelAndView deleteTour(@RequestParam int id) {
+//		travelService.deleteRow(id);
+		return new ModelAndView("redirect:tour-list");
 	}
 	
-	@RequestMapping("/edit")
-	public ModelAndView editUser(@RequestParam int id,@ModelAttribute User user) {
-		User userObj = userService.getRowById(id);
-		return new ModelAndView("edit","userObj",userObj);
+	@RequestMapping("/edit-account")
+	public ModelAndView editUser(HttpSession session) {
+		User userFromSession = (User) session.getAttribute("user");
+		User user = userService.getRowById(userFromSession.getId());
+		return new ModelAndView("edit_account","userObj",user);
+	}
+	
+	@RequestMapping(value="/edit-tour", method=RequestMethod.GET)
+	public ModelAndView editTravel(@RequestParam int id) {
+		ModelAndView mav = new ModelAndView("edit_travel");
+		mav.addObject("travelId", id);
+		Travel travel = travelService.getRowById(id);
+		mav.addObject("travel", travel);
+		return mav;
+	}
+	
+	@RequestMapping(value="/edit-tour", method=RequestMethod.POST)
+	public ModelAndView updateTravel(@ModelAttribute Travel travel, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		int travelId = (int) session.getAttribute("travelId");
+		travel.setUser(user); 
+		travel.setId(travelId); 
+		travelService.updateRow(travel);
+		return new ModelAndView("redirect:edit-tour?id=" + travelId);
 	}
 	
 	@RequestMapping("/update")
@@ -120,10 +152,21 @@ public class UserController {
 		userService.updateRow(user);
 		return new ModelAndView("redirect:users-list");
 	}
-	
-	@RequestMapping("/info")
-	public ModelAndView infoUser(@ModelAttribute User user) {
-		return new ModelAndView("info");
+		
+	@RequestMapping(value="/addTravel", method=RequestMethod.POST)
+	public ModelAndView addTravel(@ModelAttribute Travel travel, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        travel.setUser(user);
+		travelService.insertRow(travel);
+		return new ModelAndView("redirect:tour-list");
 	}
-
+	
+	private ModelAndView redirectInvalidUser(HttpSession session) {
+		if(null == session.getAttribute("user")){     
+			return new ModelAndView("redirect:/");  
+		} else {
+			return null;
+		}
+	}
+	
 }

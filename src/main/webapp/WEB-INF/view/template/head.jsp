@@ -5,9 +5,13 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<c:url value="/resources/assets/css/bootstrap-united.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.css" />" rel="stylesheet">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="<c:url value="/resources/assets/css/style.css" />" rel="stylesheet">
+    
+    <script src="<c:url value="/resources/bootstrap/jquery-1.11.3.min.js" />"></script>
+    <script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
+    <script src="<c:url value="/resources/bootstrap/js/bootstrap-table.js" />"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Web Travel App | Home Page</title>
 </head>
 <body>
