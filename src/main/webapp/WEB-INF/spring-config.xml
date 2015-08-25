@@ -61,10 +61,10 @@
 		<property name="basename" value="messages" />
 	</bean>
 
-	<bean id="userDaoImpl" class="com.github.skurski.dao.UserDaoImpl" />
-	<bean id="userServiceImpl" class="com.github.skurski.services.UserServiceImpl" />
-	
+	<bean id="userDao" class="com.github.skurski.dao.UserDao" />
 	<bean id="travelDao" class="com.github.skurski.dao.TravelDao" />
+	
+	<bean id="userService" class="com.github.skurski.services.UserService" />
 	<bean id="travelService" class="com.github.skurski.services.TravelService" />
 	
 	<bean id="multipartResolver" 

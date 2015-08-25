@@ -43,7 +43,7 @@ public class UserController {
 	public ModelAndView signUp(@Valid @ModelAttribute User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return new ModelAndView("signup");
-		}else if(userService.checkIfUserExistsByEmail(user.getEmail())) {
+		}else if(userService.checkIfObjectExistByString("email", user.getEmail())) {
 			ModelAndView mav = new ModelAndView("signup");
 			mav.addObject("accountExistsMsg", new String("Email exists in our database. Try another email"));
 			return mav;
@@ -64,7 +64,7 @@ public class UserController {
 	public ModelAndView authUser(@Valid @ModelAttribute UserLogin userLogin, BindingResult result) {
 		if(result.hasErrors()) return new ModelAndView("login");
 		
-		User validUser = userService.getUserByEmail(userLogin.getEmail());
+		User validUser = userService.getObjectByString("email", userLogin.getEmail());
 		if(validUser != null) {
 			if(userLogin.getPassword().equals(validUser.getPassword())) {
 				ModelAndView mav = new ModelAndView("redirect:tour-list");

@@ -2,21 +2,49 @@ package com.github.skurski.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.skurski.dao.UserDao;
 import com.github.skurski.domain.User;
 
-public interface UserService {
-	public int insertRow(User user);
-
-	public List<User> getList();
-
-	public User getRowById(int id);
-
-	public int updateRow(User user);
-
-	public int deleteRow(int id);
+public class UserService implements IService {
 	
-	public boolean checkIfUserExistsByEmail(String email);
+	@Autowired
+	UserDao userDao;
+
+	@Override
+	public int insertRow(Object user) {
+		return userDao.insertRow(user);
+	}
+
+	@Override
+	public List<User> getList() {
+		return userDao.getList();
+	}
+
+	@Override
+	public User getRowById(int id) {
+		return userDao.getRowById(id);
+	}
+
+	@Override
+	public int updateRow(Object user) {
+		return userDao.updateRow(user);
+	}
+
+	@Override
+	public int deleteRow(int id) {
+		return userDao.deleteRow(id);
+	}
 	
-	public User getUserByEmail(String email);
+	@Override
+	public boolean checkIfObjectExistByString(String column, String email) {
+		return userDao.checkIfObjectExistByString(column, email);
+	}
+	
+	@Override
+	public User getObjectByString(String column, String email) {
+		return userDao.getObjectByString(column, email);
+	}
 
 }
