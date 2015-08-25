@@ -6,7 +6,7 @@
 
 <div class="container col-md-12">
 	<div class="col-md-8">
-		<h2>See details of your travel</h2>
+		<h2 class="text-muted">See details of your travel</h2>
 		<div class="table-responsive">
 			<c:if test="${empty travelSet}">
 				${noTravel}
@@ -42,7 +42,7 @@
 	<div class="col-md-4">
 		<form:form id="addTravelForm" modelAttribute="travel" method="post"
 			action="addTravel" class="form-signin form-horizontal">
-			<h2 class="form-signin-heading">Add new travel</h2>
+			<h2 class="text-muted">Add new travel</h2>
 			<div class="form-group">
 				<label class="sr-only control-label" for="name">Title</label>
 				<div class="col-md-12">

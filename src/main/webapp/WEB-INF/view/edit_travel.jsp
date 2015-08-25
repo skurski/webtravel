@@ -7,7 +7,7 @@
 
 <div class="container col-md-12">
 	<div class="col-md-12">
-		<h2>Detail information about your trip</h2>
+		<h2 class="text-muted">Detail information about your trip</h2>
 	</div>
 
 	<div class="col-md-8">
@@ -70,8 +70,58 @@
 		</form:form>
 	</div>
 </div>
+	
+<div class="container">
+	<div class="col-md-8">
+		<h2 class="text-muted">Your pictures</h2>
+		<div id="carousel-example-generic2" class="carousel slide">
+			<c:if test="${!empty gallerySet}">
+			  <div class="carousel-inner">
+					<c:forEach items="${gallerySet}" var="gallery">
+						<div class="item active">
+					      <img src="${!empty gallery.path ? gallery.path : 'http://placehold.it/1280x500'}" alt="">
+					      <!-- Opis slajdu -->
+					      <div class="carousel-caption">
+					        <h3>${!empty gallery.title ? gallery.title : 'No details on image'}</h3>
+					      </div>
+					    </div>
+					</c:forEach>
+				</div>
+			</c:if>
+		</div>
+	</div>
+	
+	<div class="col-md-4">
+		<form id="uploadFileForm" method="post" enctype="multipart/form-data"
+			action="uploadFile" class="form-signin form-horizontal">
+			<h2 class="text-muted">Upload picture</h2>
 
-${travelId}
+			<div class="col-md-12">
+				<input name="file" class="" type="file" />
+			</div>
+			
+			<br />
+
+			<div class="form-group">
+				<label class="sr-only control-label" for="name">Title</label>
+				<div class="col-md-12">
+					<input name="name" class="form-control" type="text" autofocus="" required="" placeholder="Name" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-12">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Add Picture
+						»</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<div class="row"></div>
+
+
 
 <%@include file="template/footer.jsp"%>
 
@@ -89,7 +139,7 @@ $(document).ready(function() {
     
 var mapOptions = {
 center: myCenter,
-zoom: 14,
+zoom: 6,
 panControl: false,
 navigationControl: false,
 mapTypeControl: false,

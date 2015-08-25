@@ -133,6 +133,8 @@ public class UserController {
 		ModelAndView mav = new ModelAndView("edit_travel");
 		mav.addObject("travelId", id);
 		Travel travel = travelService.getRowById(id);
+		Set<Gallery> gallerySet = travel.getGallery();
+		mav.addObject("gallerySet", gallerySet);
 		mav.addObject("travel", travel);
 		return mav;
 	}
@@ -144,7 +146,7 @@ public class UserController {
 		travel.setUser(user); 
 		travel.setId(travelId); 
 		travelService.updateRow(travel);
-		return new ModelAndView("redirect:edit-tour?id=" + travelId);
+		return new ModelAndView("edit_travel");
 	}
 	
 	@RequestMapping("/update")

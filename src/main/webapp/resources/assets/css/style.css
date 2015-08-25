@@ -1,4 +1,9 @@
 body { padding-bottom: 70px; }
+.jumbotron h1 {font-size: 20px;}
+.jumbotron p {font-size: 16px;}
+.footer {
+	margin-top:100px;
+}
 address {
 	padding:10px;
 }
