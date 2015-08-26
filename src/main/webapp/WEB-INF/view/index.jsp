@@ -12,7 +12,7 @@
 				<p class="text-muted">Made with Maven, Spring, Hibernate, Bootstrap...</p>
 			</div>
 	
-			<% if(session.getAttribute("userId") == null) { %>
+			<% if(session.getAttribute("user") == null) { %>
 				<a class="btn btn-primary" href="signup">Signup » </a> 
 				<a class="btn btn-success" href="login">Login » </a>				
 			<% } else { %>

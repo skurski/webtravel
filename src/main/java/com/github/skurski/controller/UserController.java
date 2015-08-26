@@ -34,25 +34,6 @@ public class UserController {
 	@Autowired
 	TravelService travelService;
 	
-	@RequestMapping(value="/signup", method=RequestMethod.GET)
-	public ModelAndView getForm(@ModelAttribute User user) {
-		return new ModelAndView("signup");
-	}
-	
-	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public ModelAndView signUp(@Valid @ModelAttribute User user, BindingResult result) {
-		if(result.hasErrors()) {
-			return new ModelAndView("signup");
-		}else if(userService.checkIfObjectExistByString("email", user.getEmail())) {
-			ModelAndView mav = new ModelAndView("signup");
-			mav.addObject("accountExistsMsg", new String("Email exists in our database. Try another email"));
-			return mav;
-		} else {
-			userService.insertRow(user);
-			return new ModelAndView("redirect:login");
-		}
-	}
-	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView getLogin(@ModelAttribute UserLogin userLogin) {
 		ModelAndView mav = new ModelAndView("login");
