@@ -1,6 +1,8 @@
 package com.github.skurski.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -13,14 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.skurski.domain.Gallery;
 import com.github.skurski.domain.Travel;
 import com.github.skurski.domain.User;
 import com.github.skurski.domain.UserLogin;
+import com.github.skurski.services.GalleryService;
 import com.github.skurski.services.TravelService;
 import com.github.skurski.services.UserService;
 
@@ -33,6 +38,9 @@ public class UserController {
 	
 	@Autowired
 	TravelService travelService;
+	
+	@Autowired
+	GalleryService galleryService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView getLogin(@ModelAttribute UserLogin userLogin) {
@@ -98,7 +106,7 @@ public class UserController {
 	
 	@RequestMapping("/delete-tour")
 	public ModelAndView deleteTour(@RequestParam int id) {
-//		travelService.deleteRow(id);
+		travelService.deleteRow(id);
 		return new ModelAndView("redirect:tour-list");
 	}
 	
@@ -143,6 +151,29 @@ public class UserController {
 		travelService.insertRow(travel);
 		return new ModelAndView("redirect:tour-list");
 	}
+	
+    @RequestMapping(value="/uploadFile", method=RequestMethod.POST)
+    public @ResponseBody Map handleFileUpload(HttpSession session) {
+    	
+    	String[] fileName = new String[2];
+    	fileName[0] = "";
+    	fileName[1] = "";
+//    	Upload upload = new Upload();
+//    	String[] fileName = upload.run(name, file);
+//		int travelId = (int) session.getAttribute("travelId");
+//		Travel travel = travelService.getRowById(travelId);
+//    	gallery.setTravel(travel);
+//    	gallery.setPath("resources/upload/"+fileName[0]);
+//    	gallery.setTitle(fileName[1]);
+//    	galleryService.insertRow(gallery);
+    	
+    	
+    	Map<String, String> image = new HashMap<String,String>();
+    	image.put("path", "resources/upload/"+fileName[0]);
+    	image.put("title", fileName[1]);
+    	
+    	return image;
+    }
 	
 	private ModelAndView redirectInvalidUser(HttpSession session) {
 		if(null == session.getAttribute("user")){     

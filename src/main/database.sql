@@ -41,8 +41,8 @@
     INSERT INTO `travel` (`id`, `user_id`, `name`, `location`) VALUES (1, 1, 'Wakacje 2015', 'Albania - Tirana');
     INSERT INTO `travel` (`id`, `user_id`, `name`, `location`) VALUES (2, 1, 'Wakacje 2014', 'Bułgaria - Złote piaski');
     
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (1, 1, 'resources/upload/thumbnail.png', 'Travel Image');
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (2, 1, 'resources/upload/thumbnail.png', 'Travel Image');
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (3, 2, 'resources/upload/thumbnail.png', 'Travel Image');
-    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (4, 2, 'resources/upload/thumbnail.png', 'Travel Image');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (1, 1, 'resources/upload/thumbnail.png', 'Travel Image11');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (2, 1, 'resources/upload/thumbnail.png', 'Travel Image22');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (3, 2, 'resources/upload/thumbnail.png', 'Travel Image33');
+    INSERT INTO `gallery` (`id`, `travel_id`, `path`, `title`) VALUES (4, 2, 'resources/upload/thumbnail.png', 'Travel Image44');
 

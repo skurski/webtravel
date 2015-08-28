@@ -74,25 +74,38 @@
 <div class="container">
 	<div class="col-md-8">
 		<h2 class="text-muted">Your pictures</h2>
-		<div id="carousel-example-generic2" class="carousel slide">
-			<c:if test="${!empty gallerySet}">
+
+		<c:if test="${!empty gallerySet}">
+			<div id="myCarousel" class="carousel slide">
 			  <div class="carousel-inner">
+			  		<% boolean active = true; %>
 					<c:forEach items="${gallerySet}" var="gallery">
-						<div class="item active">
+						<div class="item <%= active ? "active" : ""%>">
 					      <img src="${!empty gallery.path ? gallery.path : 'http://placehold.it/1280x500'}" alt="">
 					      <!-- Opis slajdu -->
 					      <div class="carousel-caption">
 					        <h3>${!empty gallery.title ? gallery.title : 'No details on image'}</h3>
 					      </div>
 					    </div>
+					    <% active = false; %>
 					</c:forEach>
 				</div>
-			</c:if>
-		</div>
+			  <!-- Left and right controls -->
+			  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+			  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+			</div>
+		</c:if>	
+		<c:if test="${empty gallerySet}"><div>You don't have any picture</div></c:if>
 	</div>
 	
 	<div class="col-md-4">
-		<form id="uploadFileForm" method="post" enctype="multipart/form-data"
+		<form id="uploadFileForm" ModelAttribute="gallery" method="post" enctype="multipart/form-data"
 			action="uploadFile" class="form-signin form-horizontal">
 			<h2 class="text-muted">Upload picture</h2>
 
@@ -110,13 +123,15 @@
 			</div>
 			<div class="form-group">
 				<div class="col-md-12">
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Add Picture
+					<button class="btn btn-lg btn-primary btn-block" type="submit" id="uploadFileFormSubmit">Add Picture
 						»</button>
 				</div>
 			</div>
 		</form>
 	</div>
 </div>
+
+<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
 
 
 <div class="row"></div>
@@ -127,169 +142,46 @@
 
 
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDC3f0xPLRA5meF2z7Ze3HCBWTjG-St1r4&sensor=false"></script>
+<script src="<c:url value="/resources/assets/js/google_map.js" />"></script>
+
 <script>
-    
-$(document).ready(function() {
-    function initialize() {
-        
-        var myLat = ${!empty travel.latitude ? travel.latitude : "48.87146"},
-            myLng = ${!empty travel.longitude ? travel.longitude : "2.35500"},
-            myCenter=new google.maps.LatLng(myLat,myLng),
-            myPosition=new google.maps.LatLng(myLat, myLng);
-    
-var mapOptions = {
-center: myCenter,
-zoom: 6,
-panControl: false,
-navigationControl: false,
-mapTypeControl: false,
-scaleControl: false,
-draggable: true,
-scrollwheel: false,
-zoomControl:true,
-streetViewControl:false,
-overviewMapControl:false,
-rotateControl:false,
-styles: [
-
-{
-                                    featureType: "landscape",
-                                    elementType: "geometry",
-                                    stylers: [
-                                        {hue: "#ffffff"},
-                                        {saturation: -100},
-{lightness: 50},
-{visibility: 'on'}
-                                    ]
-},
-{
-featureType: "water",
-elementType: "geometry.fill",
-stylers: [
-                                            { hue: "#00d4ff" },
-                                            { gamma: 2.38 },
-                                            { saturation: -4 },
-                                            { lightness: 26 }
-]
-},
-{
-                                        featureType: "landscape.man_made",
-stylers: [
-                                            { hue: "#00ffa2" },
-                                            { lightness: 24 },
-                                            { gamma: 3.84 }
-]
-},
-{
-featureType: "road.local",
-stylers: [
-                                            { gamma: 1.22 },
-                                            { lightness: -7 },
-                                            { hue: "#00ffff" },
-                                            { saturation: 8 }
-]
-},
-{
-featureType: "poi",
-stylers: [
-                                            { hue: "#00ffbb" },
-                                            { lightness: 6 }
-                                        ]
-},
-{
-featureType: "transit.station",
-stylers: [
-                                            { "hue": "#00ddff" },
-                                            { "gamma": 0.92 },
-                                            { "lightness": -4 },
-                                            { "saturation": -27 }
-]
-},
-{
-featureType: "road.highway",
-elementType: "geometry.fill",
-stylers: [
-                                            { hue: "#00ff91" },
-                                            { lightness: 37 },
-                                            { saturation: -67 },
-                                            { gamma: 1.71 }
-]
-},
-{
-featureType: "landscape.natural",
-stylers: [
-                                            { hue: "#00ffa2" },
-                                            { lightness: 62 },
-                                            { gamma: 1.37 }
-]
-},
-{
-featureType: "road.arterial",
-stylers: [
-                                            { hue: "#00ffff" },
-                                            { lightness: 32 },
-                                            { saturation: -35 }
-]
-},
-{
-featureType: "road.highway"  
-                                },
-                                {
-featureType: "road.arterial",
-stylers: [
-                                            { hue: "#00ff4d" }
-]
-},
-{
-featureType: "administrative.country",
-elementType: "geometry.stroke",
-stylers: [
-                                            { hue: "#ff005d" }
-]
-},
-                                {
-featureType: "water",
-elementType: "geometry.stroke",
-stylers: [
-                                            { hue: "#ff005d" }
-]
-},
-                                {
-featureType: "road.local"  
-                                },
-                                {
-featureType: "road.highway",
-elementType: "geometry.stroke",
-stylers: [
-                                            { hue: "#00ffbb" },
-                                            { visibility: "on" },
-                                            { saturation: -39 },
-                                            { lightness: 28 }
-]
-                                }
-
-]
+var sendAjax = function (formName) {
+	var form = $("#" + formName + "Form").serializeArray();
+	
+	console.log(form);
+	
+	$.ajax({
+	    url: $("#" + formName + "Form").prop('action'),
+	    data: form,
+	    type: 'post',
+	    success: function (response) {
+	        console.log(response);
+	
+	      
+	    }
+	});
 };
 
-        var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
-        var marker=new google.maps.Marker({
-			position:myCenter,
-		});
-        var marker=new google.maps.Marker({
-			position:myPosition,
-			animation:google.maps.Animation.DROP
-		});
+$(function () {
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        }
+    });
+});
 
-        marker.setMap(map);
 
-        var infowindow = new google.maps.InfoWindow({
-                content: "Your travel location"
-        });
 
-        google.maps.event.addListener(marker, 'click', function() {
-                infowindow.open(map,marker);
-        });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).ready(function() {
+	formBtnHandler.on("uploadFile");
+	
+	var latitude = ${!empty travel.latitude ? travel.latitude : "48.87146"};
+	var longitude = ${!empty travel.longitude ? travel.longitude : "2.87146"};
+	initialize(latitude, longitude);
+   // google.maps.event.addDomListener(window, 'load', initialize);
 });
 </script>
