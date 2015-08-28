@@ -29,9 +29,9 @@
 							<td style="vertical-align: middle;"><c:out
 									value="${travel.location}" /></td>
 							<td style="vertical-align: middle;"><a
-								href="edit-tour?id=${travel.id}">Edit</a></td>
+								href="edit-tour?travelId=${travel.id}">Edit</a></td>
 							<td style="vertical-align: middle;"><a
-								href="delete-tour?id=${travel.id}">Delete</a></td>
+								href="delete-tour?travelId=${travel.id}">Delete</a></td>
 						</tr>
 					</c:forEach>
 				</table>

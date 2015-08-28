@@ -15,7 +15,10 @@ public class Upload {
 
     String[] run(String name, MultipartFile file) {
         if(file.isEmpty()) return null;
-
+        if (!file.getContentType().equals("image/jpeg")) {
+        	return null;
+        }
+        
         try {
             byte[] bytes = file.getBytes();
  
@@ -23,16 +26,14 @@ public class Upload {
             String rootPath = System.getProperty("user.dir");
             File dir = new File(rootPath + File.separator + "workspace" + File.separator + "webtravel" + File.separator +
             		"src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources" + File.separator + "upload");
-            if (!dir.exists())
-                dir.mkdirs();
+            if (!dir.exists()) dir.mkdirs();
             
             String[] fileArr = new String[2];
-            fileArr[0] = new StringBuilder(hashName(name)).append(".jpg").toString();
-            fileArr[1] = name;
+            fileArr[0] = new StringBuilder(hashName()).append(".jpg").toString();
+            fileArr[1] = name;       
  
             // Create the file on server
-            File serverFile = new File(dir.getAbsolutePath()
-                    + File.separator + fileArr[0]);
+            File serverFile = new File(dir.getAbsolutePath() + File.separator + fileArr[0]);
             BufferedOutputStream stream = new BufferedOutputStream(
                     new FileOutputStream(serverFile));
             stream.write(bytes);
@@ -45,7 +46,7 @@ public class Upload {
         }
     }
     
-    private String hashName(String name) {
+    private String hashName() {
     	String hash = "qazxswedcvfrtgbnhyujmkilop1234567890";
     	int min = (int) Math.floor((Math.random() * 10) + 1); 
     	int max = (int) Math.floor((Math.random() * 20) + 10); 
