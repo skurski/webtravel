@@ -1,4 +1,7 @@
 package com.github.skurski.domain;
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="gallery")
-public class Gallery {
+public class Gallery implements Serializable {
 
 	@Id
 	@GeneratedValue

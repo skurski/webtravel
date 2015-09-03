@@ -25,60 +25,72 @@ public class GalleryDao implements IDao {
 	@Override
 	@Transactional
 	public int insertRow(Object gallery) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(gallery);
-		tx.commit();
 		Serializable id = session.getIdentifier(gallery);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;	
 	}
 
 	@Override
 	public List<Gallery> getList() {
-		Session session = sessionFactory.openSession();
-		@SuppressWarnings("unchecked")
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		List<Gallery> galleryList = session.createQuery("from Gallery")
 				.list();
-		session.close();
+		session.getTransaction().commit();
+		return galleryList;
+	}
+	
+	@Transactional
+	public List<Gallery> getListByRelatedObject(Object travel, String objName) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		List<Gallery> galleryList = session.createCriteria(Gallery.class)
+								.add(Restrictions.eq(objName, travel)).list();
+		session.getTransaction().commit();
 		return galleryList;
 	}
 
 	@Override
 	public Gallery getRowById(int id) {
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Gallery gallery = (Gallery) session.load(Gallery.class, id);
+		session.getTransaction().commit();
 		return gallery;
 	}
 
 	@Override
 	public int updateRow(Object gallery) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(gallery);
-		tx.commit();
 		Serializable id = session.getIdentifier(gallery);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;
 	}
 
 	@Override
 	public int deleteRow(int id) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Gallery gallery = (Gallery) session.load(Gallery.class, id);
 		session.delete(gallery);
-		tx.commit();
 		Serializable ids = session.getIdentifier(gallery);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) ids;
 	}
 	
 	@Override
 	public boolean checkIfObjectExistByString(String column, String name) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(Gallery.class);
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+        Criteria criteria = session.createCriteria(Gallery.class);
         criteria.add(Restrictions.like(column, name));
         Gallery travel =  (Gallery) criteria.uniqueResult();
+		session.getTransaction().commit();
 		
 		if(travel != null) return true;
 		else return false;
@@ -87,9 +99,13 @@ public class GalleryDao implements IDao {
 	
 	@Override
 	public Gallery getObjectByString(String column, String name) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(Gallery.class);
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+        Criteria criteria = session.createCriteria(Gallery.class);
         criteria.add(Restrictions.like(column, name));
-        return (Gallery) criteria.uniqueResult();
+        Gallery gallery = (Gallery) criteria.uniqueResult();
+		session.getTransaction().commit();
+        return gallery;
 	}
 
 }

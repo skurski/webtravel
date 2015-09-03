@@ -1,7 +1,6 @@
 package com.github.skurski.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -74,54 +73,63 @@ public class UserController {
 	    return new ModelAndView("redirect:/");
 	}
 	
-	@RequestMapping("/users-list")
-	public ModelAndView getList() {
-		List userList = userService.getList();
-		return new ModelAndView("list","userList",userList);
-	}
-	
 	@RequestMapping(value="/tour-list", method=RequestMethod.GET)
 	public ModelAndView getTour(@ModelAttribute Travel travel, HttpSession session) {
+		if(session.getAttribute("user") == null) return new ModelAndView("redirect:/");
+		
 		ModelAndView mav = new ModelAndView("tour");
-        User userFromSession = (User) session.getAttribute("user");
-		User user = userService.getRowById(userFromSession.getId());
+        User user = (User) session.getAttribute("user");
 		mav.addObject("user", user);
-		Set<Travel> travelSet = user.getTravel();
-		if(travelSet.isEmpty()) {
+		List<Travel> travelList = travelService.getListByRelatedObject(user, "user");
+		if(travelList.isEmpty()) {
 			mav.addObject("noTravel", new String("You have no travel"));
 		} else {
-			for(Travel trav: travelSet) {
-				Set<Gallery> gallerySet = trav.getGallery();
-				if(gallerySet.iterator().hasNext()) {
-					trav.setThumbnail(gallerySet.iterator().next().getPath());
+			for(Travel trav: travelList) {
+				List<Gallery> galleryList = galleryService.getListByRelatedObject(trav, "travel");
+				if(!galleryList.isEmpty()) {
+					trav.setThumbnail(galleryList.get(0).getPath());
 				}
 			}
-			mav.addObject("travelSet", travelSet);
+			mav.addObject("travelList", travelList);
 		}
 		return mav;		
 	}
 	
 	@RequestMapping("/delete-tour")
-	public ModelAndView deleteTour(@RequestParam int travelId) {
+	public ModelAndView deleteTour(@RequestParam int travelId, HttpSession session) {
+		if(session.getAttribute("user") == null) return new ModelAndView("redirect:/");
+
 		travelService.deleteRow(travelId);
 		return new ModelAndView("redirect:tour-list");
 	}
 	
 	@RequestMapping("/edit-account")
 	public ModelAndView editUser(HttpSession session) {
-		User userFromSession = (User) session.getAttribute("user");
-		User user = userService.getRowById(userFromSession.getId());
+		if(session.getAttribute("user") == null) return new ModelAndView("redirect:/");
+
+		User user = (User) session.getAttribute("user");
 		return new ModelAndView("edit_account","userObj",user);
 	}
 	
+	@RequestMapping(value="/edit-account", method=RequestMethod.POST)
+	public ModelAndView updateAccount(@ModelAttribute User user, BindingResult result, HttpSession session) {
+		User userFromSession = (User) session.getAttribute("user");
+        user.setId(userFromSession.getId());
+		userService.updateRow(user);
+		return new ModelAndView("edit_account");
+	}
+	
 	@RequestMapping(value="/edit-tour", method=RequestMethod.GET)
-	public ModelAndView editTravel(@RequestParam int travelId) {
+	public ModelAndView editTravel(@RequestParam int travelId, HttpSession session) {
+		if(session.getAttribute("user") == null) return new ModelAndView("redirect:/");
+
 		ModelAndView mav = new ModelAndView("edit_travel");
-		mav.addObject("travelId", travelId);
 		Travel travel = travelService.getRowById(travelId);
-		Set<Gallery> gallerySet = travel.getGallery();
-		mav.addObject("gallerySet", gallerySet);
+		System.out.println("works...");
+		List<Gallery> galleryList = galleryService.getListByRelatedObject(travel, "travel");
+		mav.addObject("travelId", travelId);
 		mav.addObject("travel", travel);
+		mav.addObject("galleryList", galleryList);
 		return mav;
 	}
 	
@@ -132,13 +140,7 @@ public class UserController {
 		travel.setUser(user); 
 		travel.setId(travelId); 
 		travelService.updateRow(travel);
-		return new ModelAndView("edit_travel");
-	}
-	
-	@RequestMapping("/update")
-	public ModelAndView updateUser(@ModelAttribute User user) {
-		userService.updateRow(user);
-		return new ModelAndView("redirect:users-list");
+		return new ModelAndView("redirect:edit-tour");
 	}
 		
 	@RequestMapping(value="/addTravel", method=RequestMethod.POST)
@@ -168,13 +170,5 @@ public class UserController {
     	
     	return mav;
     }
-	
-	private ModelAndView redirectInvalidUser(HttpSession session) {
-		if(null == session.getAttribute("user")){     
-			return new ModelAndView("redirect:/");  
-		} else {
-			return null;
-		}
-	}
 	
 }

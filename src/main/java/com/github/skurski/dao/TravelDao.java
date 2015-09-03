@@ -24,36 +24,46 @@ public class TravelDao implements IDao {
 	@Override
 	@Transactional
 	public int insertRow(Object travel) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(travel);
-		tx.commit();
 		Serializable id = session.getIdentifier(travel);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;	
 	}
 
 	@Override
 	public List<Travel> getList() {
-		Session session = sessionFactory.openSession();
-		@SuppressWarnings("unchecked")
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		List<Travel> travelList = session.createQuery("from Travel")
 				.list();
-		session.close();
+		session.getTransaction().commit();
+		return travelList;
+	}
+	
+	public List<Travel> getListByRelatedObject(Object user, String objName) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		List<Travel> travelList = session.createCriteria(Travel.class)
+								.add(Restrictions.eq(objName, user)).list();
+		session.getTransaction().commit();
 		return travelList;
 	}
 
 	@Override
 	public Travel getRowById(int id) {
-		Session session = sessionFactory.openSession();
-		Travel travel = (Travel) session.load(Travel.class, id);
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		Travel travel = (Travel) session.get(Travel.class, id);
+		session.getTransaction().commit();
 		return travel;
 	}
 
 	@Override
 	public int updateRow(Object travel) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		
 //		Query query = session.createQuery("update Travel t set t.name = :name, t.location = :location, "
 //				+ "t.latitude = :latitude, t.longitude = :longitude, t.description = :description where t.id = :id");
@@ -68,29 +78,30 @@ public class TravelDao implements IDao {
 //		query.executeUpdate();
 		
 		session.saveOrUpdate(travel);
-		tx.commit();
 		Serializable id = session.getIdentifier(travel);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;
 	}
 
 	@Override
 	public int deleteRow(int id) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		Travel travel = (Travel) session.load(Travel.class, id);
 		session.delete(travel);
-		tx.commit();
 		Serializable ids = session.getIdentifier(travel);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) ids;
 	}
 	
 	@Override
 	public boolean checkIfObjectExistByString(String column, String name) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
         Criteria criteria = sessionFactory.openSession().createCriteria(Travel.class);
         criteria.add(Restrictions.like(column, name));
         Travel travel =  (Travel) criteria.uniqueResult();
+		session.getTransaction().commit();
 		
 		if(travel != null) return true;
 		else return false;
@@ -99,9 +110,13 @@ public class TravelDao implements IDao {
 	
 	@Override
 	public Travel getObjectByString(String column, String name) {
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
         Criteria criteria = sessionFactory.openSession().createCriteria(Travel.class);
         criteria.add(Restrictions.like(column, name));
-        return (Travel) criteria.uniqueResult();
+        Travel travel =  (Travel) criteria.uniqueResult();
+		session.getTransaction().commit();
+        return travel;
 	}
 
 }

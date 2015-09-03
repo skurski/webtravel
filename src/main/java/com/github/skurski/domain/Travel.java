@@ -1,4 +1,5 @@
 package com.github.skurski.domain;
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -12,7 +13,9 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="travel")
-public class Travel {
+public class Travel implements Serializable {
+
+	private static final long serialVersionUID = 4756067774633614109L;
 
 	@Id
 	@GeneratedValue

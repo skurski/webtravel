@@ -80,13 +80,13 @@
 		</div>
 		
 		<div class="col-md-8">
-			<c:if test="${!empty gallerySet}">
+			<c:if test="${!empty galleryList}">
 				<div id="myCarousel" class="carousel slide">
 					<div class="carousel-inner">
 						<%
 							boolean active = true;
 						%>
-						<c:forEach items="${gallerySet}" var="gallery">
+						<c:forEach items="${galleryList}" var="gallery">
 							<div class="item <%=active ? "active" : ""%>"
 								style="height: 600px; width: 800px;">
 								<img
@@ -114,7 +114,7 @@
 					</a>
 				</div>
 			</c:if>
-			<c:if test="${empty gallerySet}">
+			<c:if test="${empty galleryList}">
 				<div>You don't have any picture</div>
 			</c:if>
 		</div>

@@ -8,10 +8,10 @@
 	<div class="col-md-8">
 		<h2 class="text-muted">See details of your travel</h2>
 		<div class="table-responsive">
-			<c:if test="${empty travelSet}">
+			<c:if test="${empty travelList}">
 				${noTravel}
 			</c:if>
-			<c:if test="${!empty travelSet}">
+			<c:if test="${!empty travelList}">
 				<table id="tour-table" class="table table-striped table-hover">
 					<tr>
 						<td>Thumbnail</td>
@@ -20,7 +20,7 @@
 						<td>Edit</td>
 						<td>Delete</td>
 					</tr>
-					<c:forEach items="${travelSet}" var="travel">
+					<c:forEach items="${travelList}" var="travel">
 						<tr>
 							<td><img src="<c:out value="${travel.thumbnail}" />"
 								height="80" width="140"></td>

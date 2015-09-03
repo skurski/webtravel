@@ -1,6 +1,8 @@
 package com.github.skurski.domain;
+import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue
@@ -42,7 +44,7 @@ public class User {
 	
 	private String phone;
 	
-    @OneToMany(mappedBy="user") // mappedby object name in travel 
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL) // mappedby object name in travel 
     private Set<Travel> travel;
     
     public Set<Travel> getTravel() {
@@ -99,6 +101,10 @@ public class User {
 	
 	public void setPassword(String pass) {
 		password = pass;
+	}
+	
+	public String toString() {
+		return "{id:"+id+" firstName:"+firstName+" lastName:"+lastName+" email:"+email+" phone:"+phone+" password:"+password+"}";
 	}
 
 }

@@ -3,6 +3,7 @@ package com.github.skurski.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
@@ -17,65 +18,74 @@ import com.github.skurski.domain.User;
 public class UserDao implements IDao {
 
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
 	@Override
-	@Transactional
 	public int insertRow(Object user) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(user);
-		tx.commit();
 		Serializable id = session.getIdentifier(user);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;
 	}
 
 	@Override
 	public List<User> getList() {
-		Session session = sessionFactory.openSession();
-		@SuppressWarnings("unchecked")
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		List<User> userList = session.createQuery("from User")
 				.list();
-		session.close();
+		session.getTransaction().commit();
 		return userList;
 	}
 
 	@Override
 	public User getRowById(int id) {
-		Session session = sessionFactory.openSession();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		User user = (User) session.load(User.class, id);
+		session.getTransaction().commit();
 		return user;
 	}
 
 	@Override
 	public int updateRow(Object user) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		session.saveOrUpdate(user);
-		tx.commit();
 		Serializable id = session.getIdentifier(user);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) id;
 	}
 
 	@Override
 	public int deleteRow(int id) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		User user = (User) session.load(User.class, id);
 		session.delete(user);
-		tx.commit();
 		Serializable ids = session.getIdentifier(user);
-		session.close();
+		session.getTransaction().commit();
 		return (Integer) ids;
 	}
 	
 	@Override
 	public boolean checkIfObjectExistByString(String column, String name) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+        Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.like(column, name));
         User user =  (User) criteria.uniqueResult();
+		session.getTransaction().commit();
 		
 		if(user != null) return true;
 		else return false;
@@ -84,9 +94,13 @@ public class UserDao implements IDao {
 	
 	@Override
 	public User getObjectByString(String column, String name) {
-        Criteria criteria = sessionFactory.openSession().createCriteria(User.class);
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+        Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.like(column, name));
-        return (User) criteria.uniqueResult();
+        User user =  (User) criteria.uniqueResult();
+		session.getTransaction().commit();
+        return user;
 	}
 
 }

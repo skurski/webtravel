@@ -1,11 +1,13 @@
 package com.github.skurski.domain;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserLogin {
+public class UserLogin implements Serializable {
 
 	@NotEmpty
 	@Email

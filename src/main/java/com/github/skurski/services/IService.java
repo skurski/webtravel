@@ -6,6 +6,8 @@ public interface IService {
 	public int insertRow(Object object);
 
 	public List<? extends Object> getList();
+	
+	public List<? extends Object> getListByRelatedObject(Object object, String name);
 
 	public <T> T getRowById(int id);
 
