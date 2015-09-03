@@ -2,7 +2,7 @@ package com.github.skurski.dao;
 
 import java.util.List;
 
-public interface IDao {
+public interface Dao {
 	public int insertRow(Object object);
 
 	public List<? extends Object> getList();

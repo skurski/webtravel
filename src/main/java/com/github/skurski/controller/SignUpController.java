@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.skurski.domain.User;
-import com.github.skurski.services.UserService;
+import com.github.skurski.services.UserServiceImpl;
 
 @Controller
 public class SignUpController {
 	
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 	
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public ModelAndView getForm(@ModelAttribute User user) {

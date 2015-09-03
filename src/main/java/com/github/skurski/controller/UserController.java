@@ -21,22 +21,22 @@ import com.github.skurski.domain.Gallery;
 import com.github.skurski.domain.Travel;
 import com.github.skurski.domain.User;
 import com.github.skurski.domain.UserLogin;
-import com.github.skurski.services.GalleryService;
-import com.github.skurski.services.TravelService;
-import com.github.skurski.services.UserService;
+import com.github.skurski.services.GalleryServiceImpl;
+import com.github.skurski.services.TravelServiceImpl;
+import com.github.skurski.services.UserServiceImpl;
 
 @Controller
 @SessionAttributes({"travelId", "user"})
 public class UserController {
 	
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 	
 	@Autowired
-	TravelService travelService;
+	TravelServiceImpl travelService;
 	
 	@Autowired
-	GalleryService galleryService;
+	GalleryServiceImpl galleryService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public ModelAndView getLogin(@ModelAttribute UserLogin userLogin) {

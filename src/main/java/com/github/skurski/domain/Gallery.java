@@ -1,7 +1,6 @@
 package com.github.skurski.domain;
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +11,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="gallery")
 public class Gallery implements Serializable {
+
+	private static final long serialVersionUID = -2777819650526059562L;
 
 	@Id
 	@GeneratedValue

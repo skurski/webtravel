@@ -6,17 +6,14 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.skurski.domain.Travel;
-import com.github.skurski.domain.User;
 
-public class TravelDao implements IDao {
+public class TravelDaoImpl implements Dao {
 
 	@Autowired
 	SessionFactory sessionFactory;

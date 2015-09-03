@@ -3,19 +3,15 @@ package com.github.skurski.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.skurski.domain.User;
 
-public class UserDao implements IDao {
+public class UserDaoImpl implements Dao {
 
 	@Autowired
 	private SessionFactory sessionFactory;

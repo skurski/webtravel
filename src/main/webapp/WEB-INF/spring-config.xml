@@ -62,13 +62,13 @@
 		<property name="basename" value="messages" />
 	</bean>
 
-	<bean id="userDao" class="com.github.skurski.dao.UserDao" />
-	<bean id="travelDao" class="com.github.skurski.dao.TravelDao" />
-	<bean id="galleryDao" class="com.github.skurski.dao.GalleryDao" />
+	<bean id="userDao" class="com.github.skurski.dao.UserDaoImpl" />
+	<bean id="travelDao" class="com.github.skurski.dao.TravelDaoImpl" />
+	<bean id="galleryDao" class="com.github.skurski.dao.GalleryDaoImpl" />
 	
-	<bean id="userService" class="com.github.skurski.services.UserService" />
-	<bean id="travelService" class="com.github.skurski.services.TravelService" />
-	<bean id="galleryService" class="com.github.skurski.services.GalleryService" />
+	<bean id="userService" class="com.github.skurski.services.UserServiceImpl" />
+	<bean id="travelService" class="com.github.skurski.services.TravelServiceImpl" />
+	<bean id="galleryService" class="com.github.skurski.services.GalleryServiceImpl" />
 	
 	<bean id="multipartResolver" 
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  

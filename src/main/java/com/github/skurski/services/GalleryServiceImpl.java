@@ -6,15 +6,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.skurski.dao.GalleryDao;
+import com.github.skurski.dao.GalleryDaoImpl;
 import com.github.skurski.domain.Gallery;
-import com.github.skurski.domain.Travel;
-import com.github.skurski.domain.User;
 
-public class GalleryService implements IService {
+public class GalleryServiceImpl implements Service {
 	
 	@Autowired
-	GalleryDao galleryDao;
+	GalleryDaoImpl galleryDao;
 
 	@Override
 	@Transactional

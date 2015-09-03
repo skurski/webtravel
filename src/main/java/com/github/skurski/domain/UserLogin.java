@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserLogin implements Serializable {
 
+	private static final long serialVersionUID = -3554249836304837986L;
+
 	@NotEmpty
 	@Email
 	private String email;

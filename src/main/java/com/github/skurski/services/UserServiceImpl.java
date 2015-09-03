@@ -6,14 +6,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.skurski.dao.UserDao;
-import com.github.skurski.domain.Travel;
+import com.github.skurski.dao.UserDaoImpl;
 import com.github.skurski.domain.User;
 
-public class UserService implements IService {
+public class UserServiceImpl implements Service {
 	
 	@Autowired
-	UserDao userDao;
+	UserDaoImpl userDao;
 
 	@Override
 	@Transactional

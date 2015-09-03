@@ -2,7 +2,7 @@ package com.github.skurski.services;
 
 import java.util.List;
 
-public interface IService {
+public interface Service {
 	public int insertRow(Object object);
 
 	public List<? extends Object> getList();
