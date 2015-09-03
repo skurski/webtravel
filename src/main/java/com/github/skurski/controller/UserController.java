@@ -125,7 +125,6 @@ public class UserController {
 
 		ModelAndView mav = new ModelAndView("edit_travel");
 		Travel travel = travelService.getRowById(travelId);
-		System.out.println("works...");
 		List<Gallery> galleryList = galleryService.getListByRelatedObject(travel, "travel");
 		mav.addObject("travelId", travelId);
 		mav.addObject("travel", travel);
